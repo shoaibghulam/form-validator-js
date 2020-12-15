@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/parsley.css">
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/parsley.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-head bg-primary text-light text-center pt-2 pb-2">
+                <h1>Form Validation</h1>
+            </div>
+            <div class="card-body">
+                <form action="index.html" id="myform" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        
+                        <label for="fname">Full Name</label>
+                        <input type="text" class="form-control" 
+                         data-parsley-trigger="keyup"                 data-parsley-pattern="^[a-zA-Z\s]+$" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="Email">Email </label>
+                        <input type="text" name="email" id="email" class="form-control" data-parsley-trigger="keyup" data-parsley-type="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fname">Cotact No</label>
+                        <input type="text" name="contact" id="contact" class="form-control" data-parsley-length="[6, 14]" data-parsley-trigger="keyup" data-parsley-type="digits"	 required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fname">Password</label>
+                        <input type="password" name="password" id="password" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fname">Confirm Password</label>
+                        <input type="password" name="password" id="cpassword" class="form-control" data-parsley-equalto="#password" data-parsley-trigger="keyup"	 required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fname">Image</label>
+                        <input type="file" name="image" id="image" class="form-control" onchange="show(this)"  required>
+                        <!-- this div is required for validation msg -->
+                        <div id="img-error"></div>
+                    </div>
+                    <br><br>
+                    <div class="form-group text-center">
+                    <input type="submit" value="Submit" value="Submit" class="btn btn-success text-center">  
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+<script>
+    $(document).ready(function(){
+        $('#myform').parsley();
+    })
+   
+</script>
+<script>
+    function show(input) {
+        debugger;
+        var validExtensions = ['jpg','png','jpeg']; //array of valid extensions
+        var fileName = input.files[0].name;
+        var fileNameExt = fileName.substr(fileName.lastIndexOf('.') + 1);
+        if ($.inArray(fileNameExt, validExtensions) == -1) {
+            input.type = ''
+            input.type = 'file'
+            $('#user_img').attr('src',"");
+            $('#img-error').show()
+              $('#img-error').html("<span style='color:red'>Allowed File type jpg , png , jpeg </span>")
+
+            
+            
+        }
+        else
+        {
+        if (input.files && input.files[0]) {
+            var filerdr = new FileReader();
+            filerdr.onload = function (e) {
+                $('#user_img').attr('src', e.target.result);
+                $('#img-error').hide()
+            }
+            filerdr.readAsDataURL(input.files[0]);
+        }
+        }
+    }
+
+</script>
+</body>
+</html>
